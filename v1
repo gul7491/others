@@ -1,0 +1,18 @@
+$(date +%m)
+
+{env.BUILD_NUMBER}
+ "{{
+docker images --format "{{.REPOSITORY}}"
+docker images web-aap-image:41 --format "{{.ID}}" 
+docker images --format "{{.CREATED}}"
+
+1. docker ps --filter "name=tomcat-container", "{{.ID}}"
+
+tomcat-container
+# remove particular container
+docker rm -f $(docker ps -a --filter "name=tomcat-container" --format "{{.ID}}")
+
+#can be used to delete particular image
+docker rmi $(docker images web-aap-image:${BUILD_NUMBER} --format "{{.ID}}")
+
+docker rmi $(docker images web-aap-image --format "{{.ID}}")
